@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+						 	http://www.springframework.org/schema/context
+						 	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 引入多个外部配置文件时，需要加上ignore-unresolvable="true"属性 -->
+    <context:property-placeholder location="classpath:redis.properties"/>
+    <!-- 通过property注入，调用setter方法 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.hostname}" p:poolConfig-ref="jedisPoolConfig"
+          p:timeout="60000"
+          p:port="${redis.port}" p:usePool="true"
+          p:password="${redis.password}">
+    </bean>
+
+    <!-- 通过constructor-arg注入，调用构造器 -->
+    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
+        <!--<constructor-arg index="0" ref="jedisClusterConfig"/>-->
+        <!--<constructor-arg index="1" ref="jedisPoolConfig"/>-->
+    <!--</bean>-->
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
+        <property name="blockWhenExhausted" value="true"/>
+        <!-- 最大空闲连接数 -->
+        <property name="maxIdle" value="64"/>
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="64"/>
+        <!-- 最大连接数 -->
+        <property name="maxTotal" value="256"/>
+        <!-- 获取连接时的最大等待毫秒数 -->
+        <property name="maxWaitMillis" value="30000"/>
+        <!-- 在获取连接的时候检查有效性, 默认false , 如果为true，则得到的jedis实例均是可用的 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 在空闲时检查有效性, 默认false -->
+        <property name="testWhileIdle" value="false"/>
+        <!-- 在归还给pool时，是否提前检查有效性  -->
+        <property name="testOnReturn" value="false"/>
+    </bean>
+
+    <!-- 集群 -->
+     <!--<bean id="jedisClusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">-->
+         <!--<constructor-arg>-->
+             <!--<set>-->
+                 <!--<value>${redis1.hostandpost}</value>-->
+                 <!--<value>${redis2.hostandpost}</value>-->
+                 <!--<value>${redis3.hostandpost}</value>-->
+                 <!--<value>${redis4.hostandpost}</value>-->
+                 <!--<value>${redis5.hostandpost}</value>-->
+                 <!--<value>${redis6.hostandpost}</value>-->
+                  <!--<value>${redis7.hostandpost}</value>-->
+                  <!--<value>${redis8.hostandpost}</value>-->
+             <!--</set>-->
+         <!--</constructor-arg>-->
+     <!--</bean>-->
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+          p:connectionFactory-ref="jedisConnectionFactory">
+        <property name="enableTransactionSupport" value="true"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"></bean>
+        </property>
+    </bean>
+
+    <!-- StringRedisTemplate继承RedisTemplate，内部k-v都为String -->
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+          p:connectionFactory-ref="jedisConnectionFactory">
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+        </property>
+    </bean>
+</beans>
