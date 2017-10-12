@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.mosen.shoes.entity.ArrearsList" table="arrears_list" schema="shoes">
+        <id name="lsh" column="lsh"/>
+        <property name="customerId" column="customer_id"/>
+        <property name="type" column="type"/>
+        <property name="money" column="money"/>
+        <property name="date" column="date"/>
+        <property name="remark" column="remark"/>
+    </class>
+    <class name="com.mosen.shoes.entity.BuyList" table="buy_list" schema="shoes">
+        <id name="lsh" column="lsh"/>
+        <property name="shoesId" column="shoes_id"/>
+        <property name="factoryId" column="factory_id"/>
+        <property name="type" column="type"/>
+        <property name="boxes" column="boxes"/>
+        <property name="oneBoxCount" column="one_box_count"/>
+        <property name="totalCount" column="total_count"/>
+        <property name="boxPrice" column="box_price"/>
+        <property name="totalPrice" column="total_price"/>
+        <property name="date" column="date"/>
+        <property name="remark" column="remark"/>
+    </class>
+    <class name="com.mosen.shoes.entity.Customer" table="customer" schema="shoes">
+        <id name="id" column="id"/>
+        <property name="name" column="name"/>
+        <property name="location" column="location"/>
+        <property name="arrears" column="arrears"/>
+    </class>
+    <class name="com.mosen.shoes.entity.Factory" table="factory" schema="shoes">
+        <id name="id" column="id"/>
+        <property name="name" column="name"/>
+        <property name="payment" column="payment"/>
+    </class>
+    <class name="com.mosen.shoes.entity.RemitList" table="remit_list" schema="shoes">
+        <id name="lsh" column="lsh"/>
+        <property name="factoryId" column="factory_id"/>
+        <property name="type" column="type"/>
+        <property name="money" column="money"/>
+        <property name="date" column="date"/>
+        <property name="remark" column="remark"/>
+    </class>
+    <class name="com.mosen.shoes.entity.ShellList" table="shell_list" schema="shoes">
+        <id name="lsh" column="lsh"/>
+        <property name="shoesId" column="shoes_id"/>
+        <property name="customerId" column="customer_id"/>
+        <property name="count" column="count"/>
+        <property name="shellPrice" column="shell_price"/>
+        <property name="totalPrice" column="total_price"/>
+        <property name="date" column="date"/>
+        <property name="remark" column="remark"/>
+    </class>
+    <class name="com.mosen.shoes.entity.Shoes" table="shoes" schema="shoes">
+        <id name="id" column="id"/>
+        <property name="no" column="no"/>
+        <property name="factoryId" column="factory_id"/>
+        <property name="color" column="color"/>
+        <property name="shellPrice" column="shell_price"/>
+        <property name="picture" column="picture"/>
+        <property name="amount" column="amount"/>
+    </class>
+</hibernate-mapping>
+

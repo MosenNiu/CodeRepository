@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 自动实现dao接口时需定位到类，手动实现可定位到包 -->
+<mapper namespace="com.mosen.shoes.dao.FactoryDao">
+
+    <!-- 自动实现时方法名和id应保持一致 -->
+    <insert id="insertFactory" parameterType="Factory">
+        INSERT INTO factory (name, payment) VALUES (#{name}, #{payment})
+    </insert>
+
+
+</mapper>

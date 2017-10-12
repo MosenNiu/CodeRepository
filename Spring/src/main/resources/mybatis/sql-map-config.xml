@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="ArrearsList" type="com.mosen.shoes.entity.ArrearsList"/>
+        <typeAlias alias="BuyList" type="com.mosen.shoes.entity.BuyList"/>
+        <typeAlias alias="Customer" type="com.mosen.shoes.entity.Customer"/>
+        <typeAlias alias="Factory" type="com.mosen.shoes.entity.Factory"/>
+        <typeAlias alias="RemitList" type="com.mosen.shoes.entity.RemitList"/>
+        <typeAlias alias="ShellList" type="com.mosen.shoes.entity.ShellList"/>
+        <typeAlias alias="Shoes" type="com.mosen.shoes.entity.Shoes"/>
+    </typeAliases>
+</configuration>
