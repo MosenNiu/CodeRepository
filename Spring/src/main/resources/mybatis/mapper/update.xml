@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mosen.shoes.dao">
+
+    <update id="updateShoes" parameterType="Shoes">
+        UPDATE shoes 
+        <set>
+            <if test="shellPrice != null">shell_price=#{shellPrice},</if>
+            <if test="amount != null">amount=#{amount}</if>
+        </set>
+        WHERE color=#{color} AND no=#{no} AND factory_id=#{factoryId}
+    </update>
+</mapper>

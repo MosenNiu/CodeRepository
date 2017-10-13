@@ -7,8 +7,8 @@ import java.util.List;
  */
 public interface BaseDao {
 
-    Object selectOne(String sqlKey, Object parameter);
-    List<?> selectList(String sqlKey, Object parameter);
+    <T> T selectOne(String sqlKey, Object parameter);
+    <T> List<T> selectList(String sqlKey, Object parameter);
     int update(String sqlKey, Object parameter);
     int insert(String sqlKey, Object parameter);
     int delete(String sqlKey, Object parameter);

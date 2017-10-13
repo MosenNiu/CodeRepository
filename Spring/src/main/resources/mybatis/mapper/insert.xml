@@ -2,13 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 自动实现dao接口时需定位到类，手动实现可定位到包 -->
-<mapper namespace="com.mosen.shoes.dao.FactoryDao">
+<mapper namespace="com.mosen.shoes.dao">
 
-    <!-- 自动实现时方法名和id应保持一致 -->
+    <!-- useGeneratedKeys="true" keyProperty="id" 可将自增的id返回到实体对象中
+        -->
     <insert id="insertFactory" parameterType="Factory">
+        <!-- 或者使用获取主键
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+          SELECT LAST_INSERT_ID()
+        </selectKey> -->
         INSERT INTO factory (name, payment) VALUES (#{name}, #{payment})
     </insert>
-
+    <insert id="insertShoes" parameterType="Shoes">
+        INSERT INTO shoes (no, factory_id, color, shell_price, picture, amount)
+        VALUES (
+            #{no, jdbcType=VARCHAR},
+            #{factoryId, jdbcType=INTEGER},
+            #{color, jdbcType=VARCHAR},
+            #{shellPrice, jdbcType=DOUBLE},
+            #{picture, jdbcType=VARCHAR},
+            #{amount, jdbcType=VARCHAR}
+        )
+    </insert>
 
 </mapper>

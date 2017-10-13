@@ -23,12 +23,12 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
-    public Object selectOne(String sqlKey, Object parameter) {
+    public <T> T selectOne(String sqlKey, Object parameter) {
         return sqlSessionTemplate.selectOne(sqlKey, parameter);
     }
 
     @Override
-    public List<?> selectList(String sqlKey, Object parameter) {
+    public <T> List<T> selectList(String sqlKey, Object parameter) {
         return sqlSessionTemplate.selectList(sqlKey, parameter);
     }
 

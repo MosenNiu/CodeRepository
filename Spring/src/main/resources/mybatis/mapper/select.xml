@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mosen.shoes.dao">
+
+    <select id="selectFactory" parameterType="String" resultType="Factory">
+        SELECT id, name, payment FROM factory WHERE name=#{name}
+    </select>
+
+    <select id="selectShoes" parameterType="map" resultType="Shoes">
+        SELECT shoes.id,
+        shoes.`no`,
+        shoes.factory_id AS factoryId,
+        shoes.color,
+        shoes.shell_price AS shellPrice,
+        shoes.picture,
+        shoes.amount
+        FROM shoes
+        <where>
+            <trim suffixOverrides="and">
+                <if test="color != null">color = #{color} AND </if>
+                <if test="no != null">no = #{no} AND </if>
+                <if test="factoryId != null">factory_id = #{factoryId}</if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>
