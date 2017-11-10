@@ -5,7 +5,7 @@
 
     <Properties>
         <!-- 配置日志文件输出目录 -->
-        <Property name="LOG_HOME">/home/logs/query</Property>
+        <Property name="LOG_HOME">/home/logs/log4j2</Property>
         <!-- 配置日志输出格式 -->
         <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{1.} %l %M %logger %u %sn - %msg%xEx%n</Property>
     </Properties>
@@ -39,32 +39,34 @@
 
     <Appenders>
 
-        <!--这个输出控制台的配置-->
-        <Console name="Console" target="SYSTEM_OUT">
+        <!--这个输出控制台的配置, name用于节点引用, target是输出格式,可为 SYSTEM_OUT(默认) 或 SYSTEM_ERR-->
+        <Console name="console" target="SYSTEM_OUT">
             <!-- 控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) -->
-            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>-->
             <!-- 输出日志的格式 -->
             <PatternLayout pattern="${pattern}"/>
         </Console>
 
-        <!-- 设置日志格式并配置日志压缩格式(service.log.年份.gz) -->
-        <RollingRandomAccessFile name="service_appender"
-                                 immediateFlush="false" fileName="${LOG_HOME}/service.log"
-                                 filePattern="${LOG_HOME}/service.log.%d{yyyy-MM-dd}.log.gz">
-
-            <PatternLayout>
-                <pattern>${pattern}</pattern>
-            </PatternLayout>
+        <!-- 输出到文件设置，RollingFile与此标签类似，为非缓存方式写入，性能比这种方式略低  immediateFlush为是否立即写入文件标识 -->
+        <RollingRandomAccessFile name="service" immediateFlush="false" fileName="${LOG_HOME}/service.log"
+                                 filePattern="${LOG_HOME}/old/service.%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout charset="UTF-8" pattern="${pattern}" />
             <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <!--每次JVM重新运行都会触发。-->
+                <!--<OnStartupTriggeringPolicy/>-->
+                <!-- 每天更新一次 interval的值依据filePattern的日期格式增加，即如果日期格式为分钟，则1分钟更新一次 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+                <!-- 文件达到指定大小后更新 -->
+                <SizeBasedTriggeringPolicy size="1GB" />
             </Policies>
+            <!-- 最多备份10个 -->
+            <DefaultRolloverStrategy max="10" />
         </RollingRandomAccessFile>
 
-
+        <!-- 分级别记录日志 -->
         <!-- DEBUG日志格式 -->
-        <RollingRandomAccessFile name="service_debug_appender"
-                                 immediateFlush="false" fileName="${LOG_HOME}/debug.log"
-                                 filePattern="${LOG_HOME}/service.log.%d{yyyy-MM-dd}.debug.gz">
+        <RollingRandomAccessFile name="service_debug" immediateFlush="false" fileName="${LOG_HOME}/service_debug.log"
+                                 filePattern="${LOG_HOME}/service_debug.%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -72,10 +74,10 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingRandomAccessFile>
+
         <!-- info日志格式 -->
-        <RollingRandomAccessFile name="service_info_appender"
-                                 immediateFlush="false" fileName="${LOG_HOME}/info.log"
-                                 filePattern="${LOG_HOME}/service.log.%d{yyyy-MM-dd}.info.gz">
+        <RollingRandomAccessFile name="service_info" immediateFlush="false" fileName="${LOG_HOME}/service_info.log"
+                                 filePattern="${LOG_HOME}/service_info.%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -83,11 +85,10 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingRandomAccessFile>
-        
+
         <!-- warn日志格式 -->
-        <RollingRandomAccessFile name="service_warn_appender"
-                                 immediateFlush="false" fileName="${LOG_HOME}/warn.log"
-                                 filePattern="${LOG_HOME}/service.log.%d{yyyy-MM-dd}.warn.gz">
+        <RollingRandomAccessFile name="service_warn" immediateFlush="false" fileName="${LOG_HOME}/service_warn.log"
+                                 filePattern="${LOG_HOME}/service_warn.%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -95,10 +96,10 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingRandomAccessFile>
+
         <!-- error日志格式 -->
-        <RollingRandomAccessFile name="service_error_appender"
-                                 immediateFlush="false" fileName="${LOG_HOME}/error.log"
-                                 filePattern="${LOG_HOME}/service.log.%d{yyyy-MM-dd}.error.gz">
+        <RollingRandomAccessFile name="service_error" immediateFlush="false" fileName="${LOG_HOME}/service_error.log"
+                                 filePattern="${LOG_HOME}/service_error.%d{yyyy-MM-dd}.log.gz">
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -111,9 +112,10 @@
     <Loggers>
         <!-- 配置日志的根节点 -->
         <root level="info">
-            <appender-ref ref="Console"/>
+            <appender-ref ref="console"/>
         </root>
 
+        <!-- logger继承root, 此处即为继承输出到控制台，通过属性 additivity="false" 可取消继承 -->
         <!-- 第三方日志系统 -->
         <logger name="org.springframework.core" level="error"/>
         <logger name="org.springframework.beans" level="error"/>
@@ -122,17 +124,20 @@
         <logger name="org.jboss.netty" level="error"/>
         <logger name="org.apache.http" level="error"/>
         <logger name="org.apache.zookeeper" level="error" additivity="false"/>
-        <!-- 日志实例(info),其中'service-log'继承root,但是root将日志输出控制台,而'service-log'将日志输出到文件,通过属性'additivity="false"'将'service-log'的
-             的日志不再输出到控制台 -->
-        <logger name="service_log" level="warn" includeLocation="true" additivity="true">
-            <appender-ref ref="service_info_appender"/>
+        <!-- 日志实例(info), name属性为包名 -->
+        <logger name="hahaha" level="info" additivity="true">
+            <appender-ref ref="service_info"/>
         </logger>
 
         <!-- 日志实例(debug) -->
-        <logger name="service_log" level="warn" includeLocation="true" additivity="false">
-            <appender-ref ref="service_debug_appender"/>
+        <logger name="hahaha" level="debug" >
+            <appender-ref ref="service_debug"/>
         </logger>
 
+        <!-- 日志实例(debug) -->
+        <logger name="hahaha" level="error" >
+            <appender-ref ref="service_error"/>
+        </logger>
     </Loggers>
 
 </Configuration>

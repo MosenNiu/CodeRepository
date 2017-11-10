@@ -18,5 +18,6 @@ public class Log4j2Test {
         logger2.info("111:{}",Thread.currentThread().getName());
         logger.info("111:{}",Thread.currentThread().getName());
         System.out.println(System.currentTimeMillis()-begin);
+        System.out.println("1111".getBytes().toString());
     }
 }
