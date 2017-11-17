@@ -48,7 +48,7 @@
         </Console>
 
         <!-- 输出到文件设置，RollingFile与此标签类似，为非缓存方式写入，性能比这种方式略低  immediateFlush为是否立即写入文件标识 -->
-        <RollingRandomAccessFile name="service" immediateFlush="false" fileName="${LOG_HOME}/service.log"
+        <RollingRandomAccessFile name="service" immediateFlush="true" fileName="${LOG_HOME}/service.log"
                                  filePattern="${LOG_HOME}/old/service.%d{yyyy-MM-dd}.log.gz">
             <PatternLayout charset="UTF-8" pattern="${pattern}" />
             <Policies>
@@ -67,6 +67,10 @@
         <!-- DEBUG日志格式 -->
         <RollingRandomAccessFile name="service_debug" immediateFlush="false" fileName="${LOG_HOME}/service_debug.log"
                                  filePattern="${LOG_HOME}/service_debug.%d{yyyy-MM-dd}.log.gz">
+            <Filters>
+                <!--<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />-->
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -78,6 +82,10 @@
         <!-- info日志格式 -->
         <RollingRandomAccessFile name="service_info" immediateFlush="false" fileName="${LOG_HOME}/service_info.log"
                                  filePattern="${LOG_HOME}/service_info.%d{yyyy-MM-dd}.log.gz">
+            <Filters>
+                <!--<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />-->
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -89,6 +97,10 @@
         <!-- warn日志格式 -->
         <RollingRandomAccessFile name="service_warn" immediateFlush="false" fileName="${LOG_HOME}/service_warn.log"
                                  filePattern="${LOG_HOME}/service_warn.%d{yyyy-MM-dd}.log.gz">
+            <Filters>
+                <!--<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />-->
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -98,8 +110,12 @@
         </RollingRandomAccessFile>
 
         <!-- error日志格式 -->
-        <RollingRandomAccessFile name="service_error" immediateFlush="false" fileName="${LOG_HOME}/service_error.log"
+        <RollingRandomAccessFile name="service_error" immediateFlush="true" fileName="${LOG_HOME}/service_error.log"
                                  filePattern="${LOG_HOME}/service_error.%d{yyyy-MM-dd}.log.gz">
+            <Filters>
+                <!--<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />-->
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
             <PatternLayout>
                 <pattern>${pattern}</pattern>
             </PatternLayout>
@@ -113,6 +129,12 @@
         <!-- 配置日志的根节点 -->
         <root level="info">
             <appender-ref ref="console"/>
+            <!-- 分级输出到文件 -->
+            <appender-ref ref="service"/>
+            <appender-ref ref="service_debug"/>
+            <appender-ref ref="service_info"/>
+            <appender-ref ref="service_warn"/>
+            <appender-ref ref="service_error"/>
         </root>
 
         <!-- logger继承root, 此处即为继承输出到控制台，通过属性 additivity="false" 可取消继承 -->
@@ -127,16 +149,6 @@
         <!-- 日志实例(info), name属性为包名 -->
         <logger name="hahaha" level="info" additivity="true">
             <appender-ref ref="service_info"/>
-        </logger>
-
-        <!-- 日志实例(debug) -->
-        <logger name="hahaha" level="debug" >
-            <appender-ref ref="service_debug"/>
-        </logger>
-
-        <!-- 日志实例(debug) -->
-        <logger name="hahaha" level="error" >
-            <appender-ref ref="service_error"/>
         </logger>
     </Loggers>
 
