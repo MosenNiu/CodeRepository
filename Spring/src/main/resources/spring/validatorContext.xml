@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/tx
+							http://www.springframework.org/schema/tx/spring-tx.xsd
+						 	http://www.springframework.org/schema/context
+						 	http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven validator="validator"/>
+
+     <!--hibernate-validator 错误信息配置-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+          p:validationMessageSource-ref="messageSourceValidator"
+          p:providerClass="org.hibernate.validator.HibernateValidator"/>
+
+     <!-- 国际化信息配置(用于显示中文及消息设置) -->
+    <bean id="messageSourceValidator" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:basename="classpath:validatorMsg" p:defaultEncoding="utf-8" p:cacheSeconds="60"/>
+
+</beans>

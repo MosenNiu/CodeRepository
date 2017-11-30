@@ -1,9 +1,14 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Mosen on 2017/8/31.
  */
 public class JacksonDemo {
+
+    @JsonProperty("class_name") //转换json字段
+    private String className;
+
     public static void main(String[] args) {
         //创建测试object
         User user = new User("李宁",24,"北京");

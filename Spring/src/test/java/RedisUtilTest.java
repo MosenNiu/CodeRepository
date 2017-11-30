@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import validator.Person;
 
 import java.util.Set;
 
@@ -56,6 +58,22 @@ private RedisTemplate redisTemplate;
         redisTemplate.delete("1111");
         System.out.println(redisTemplate.hasKey("1111"));
 
+    }
+
+    @Test
+    public void serializer(){
+        Jackson2JsonRedisSerializer<Person> jsonRedisSerializer = new Jackson2JsonRedisSerializer<Person>(Person.class);
+        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(stringSerializer );
+        redisTemplate.setValueSerializer(jsonRedisSerializer );
+        Person person = new Person();
+        person.setName("lisi");
+        redisTemplate.opsForValue().set("111",person);
+        /* boundValueOps.get(){ return this.ops.get(this.getKey()); } */
+        Person p1 = (Person) redisTemplate.opsForValue().get("111");
+        Person p2 = (Person) redisTemplate.boundValueOps("111").get();
+        System.out.println(p1.getName());
+        redisTemplate.delete("111");
     }
 
 }

@@ -10,11 +10,13 @@
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<dubbo:application name="shortUrl" />
 	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
-	<dubbo:registry  address="zookeeper://192.168.15.252:2181" check="false" />
+	<dubbo:registry  address="zookeeper://192.168.15.252:2181"/>
+	<dubbo:registry address="zookeeper://192.168.15.142:2181?backup=192.168.15.250:2181,192.168.15.240:2181" />
+	<dubbo:registry id="dxcc" protocol="zookeeper" address="${dxcc_zk1},${dxcc_zk2},${dxcc_zk3},${dxcc_zk4},${dxcc_zk5}"/>
 	<!-- 监控中心配置 -->
 	<!-- 监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则直连监控中心 -->
 	<dubbo:monitor protocol="registry"/>
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
-	<dubbo:reference id="shortInner" interface="com.aisino.domains.einvoice.service.ShortUrlInnerService"/>
+	<dubbo:reference id="shortInner" interface="com.aisino.domains.einvoice.service.ShortUrlInnerService"  check="false" />
 
 </beans>
