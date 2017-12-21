@@ -13,7 +13,7 @@
     <!-- 通过property注入，调用setter方法 -->
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${redis.hostname}" p:poolConfig-ref="jedisPoolConfig"
-          p:timeout="60000"
+          p:timeout="6000"
           p:port="${redis.port}" p:usePool="true"
           p:password="${redis.password}">
     </bean>
@@ -36,11 +36,11 @@
         <!-- 获取连接时的最大等待毫秒数 -->
         <property name="maxWaitMillis" value="30000"/>
         <!-- 在获取连接的时候检查有效性, 默认false , 如果为true，则得到的jedis实例均是可用的 -->
-        <property name="testOnBorrow" value="false"/>
+        <property name="testOnBorrow" value="true"/>
         <!-- 在空闲时检查有效性, 默认false -->
-        <property name="testWhileIdle" value="false"/>
+        <property name="testWhileIdle" value="true"/>
         <!-- 在归还给pool时，是否提前检查有效性  -->
-        <property name="testOnReturn" value="false"/>
+        <property name="testOnReturn" value="true"/>
     </bean>
 
     <!-- 集群 -->

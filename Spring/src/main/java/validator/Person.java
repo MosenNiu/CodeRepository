@@ -4,6 +4,7 @@ import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -48,6 +49,9 @@ public class Person implements Serializable {
     @NotNull(message = "验证密码不能为空")
     private String rpassword;
 
+    @Digits(integer= 3 ,fraction= 2 )
+    private Double price;
+
 
     /**
     @AssertTrue   //用于boolean字段，该字段只能为true
@@ -89,9 +93,6 @@ public class Person implements Serializable {
     @Valid //该注解只要用于字段为一个包含其他对象的集合或map或数组的字段，或该字段直接为一个其他对象的引用，
 
     //这样在检查当前对象的同时也会检查该字段所引用的对象
-    @NumberFormat //验证数字
-
-    @DateTimeFormat //验证日期
 
     */
 
