@@ -3,7 +3,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**FastJson将json转换为对象时，忽略大小写和下划线
  * Created by Mosen on 2017/8/31.
  */
 public class FastJsonDemo {
@@ -15,6 +15,8 @@ public class FastJsonDemo {
         //转成json字符串
         String json = JSON.toJSON(user).toString();
         System.out.println(json);
+
+        json = "{\"name\":\"李宁\",\"location\":\"北京\",\"A_GE\":24}";
 
         //json字符串转成对象
         User user1 = JSON.parseObject(json,User.class);
@@ -29,7 +31,5 @@ public class FastJsonDemo {
         List<User> list1 = JSON.parseArray(jsonList, User.class);
         System.out.println(list1);
 
-        String str = "{'name':['李宁','老王'],'location':['北京','无锡'],'age':[24,36]}";
-        System.out.println(JSON.parseArray(str,User.class));
     }
 }
