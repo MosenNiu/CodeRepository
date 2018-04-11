@@ -1,3 +1,5 @@
+package apache.commons.io;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 
@@ -8,7 +10,7 @@ import java.util.Map;
 
 public class DistinctByMap {
 
-	private static String filePath = "C:\\Users\\Mosen\\Desktop\\failedTaxpayer.txt";
+	private static String filePath = "C:\\Users\\Mosen\\Desktop\\11111.txt";
 
 	
 	public static void main(String[] args) {

@@ -12,7 +12,8 @@
     <artifactId>SpringDubbox</artifactId>
     <properties>
         <spring-version>4.3.10.RELEASE</spring-version>
-        <resteasy-version>3.1.4.Final</resteasy-version>
+        <!--3.1.4.Final版本rest和dubbox的jar包有冲突-->
+        <resteasy-version>3.0.7.Final</resteasy-version>
     </properties>
     <dependencies>
         <!-- spring -->
@@ -32,6 +33,18 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
+            <version>${resteasy-version}</version>
+        </dependency>
+        <!-- 处理json请求 -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>${resteasy-version}</version>
+        </dependency>
+        <!-- 返回信息 -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
             <version>${resteasy-version}</version>
         </dependency>
         <dependency>

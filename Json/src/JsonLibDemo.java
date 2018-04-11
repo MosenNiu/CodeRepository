@@ -20,6 +20,10 @@ public class JsonLibDemo {
         User user1 = (User) JSONObject.toBean(jsonObject1,User.class);
         System.out.println(user1);
 
+        //获取json中特定的值
+        JSONObject jobj = JSONObject.fromObject(json);
+        JSONObject fp_kjs = jobj.getJSONArray("fP_KJS").getJSONObject(0);
+        String fileContent = fp_kjs.getJSONObject("fP_KJ").getString("fILE_CONTENT");
 
     }
 }

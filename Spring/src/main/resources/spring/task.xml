@@ -31,7 +31,8 @@
 	<!-- 定义时间间隔触发器 -->
 	<bean id="timeTigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="timeDitail1"></property>
-		<property name="cronExpression">	
+		<property name="cronExpression">
+		<!--秒 分 小时 日 月 星期 年-->
 		<value>*/30 * * * * ?</value>
 		</property>
 	</bean>

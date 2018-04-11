@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,10 @@ import java.util.List;
  * Created by Mosen on 2017/8/31.
  */
 public class FastJsonDemo {
+
+    @JSONField(name = "class_name") //转换json字段
+    private String className;
+
     public static void main(String[] args) {
         //创建测试object
         User user = new User("李宁",24,"北京");

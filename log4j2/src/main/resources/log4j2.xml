@@ -68,7 +68,9 @@
         <RollingRandomAccessFile name="service_debug" immediateFlush="false" fileName="${LOG_HOME}/service_debug.log"
                                  filePattern="${LOG_HOME}/service_debug.%d{yyyy-MM-dd}.log.gz">
             <Filters>
+
                 <!--<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />-->
+                <!-- 控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) -->
                 <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
             </Filters>
             <PatternLayout>
@@ -135,6 +137,12 @@
             <appender-ref ref="service_info"/>
             <appender-ref ref="service_warn"/>
             <appender-ref ref="service_error"/>
+            <Filters>
+                <!--<MapFilter onMatch="DENY" onMismatch="NEUTRAL" operator="or">-->
+                <MapFilter onMatch="ACCEPT" onMismatch="DENY" operator="or">
+                    <KeyValuePair key="123" value="456"/>
+                </MapFilter>
+            </Filters>
         </root>
 
         <!-- logger继承root, 此处即为继承输出到控制台，通过属性 additivity="false" 可取消继承 -->

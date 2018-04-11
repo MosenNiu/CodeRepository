@@ -9,7 +9,7 @@
 						 	http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 引入多个外部配置文件时，需要加上ignore-unresolvable="true"属性 -->
-    <context:property-placeholder location="classpath:redis.properties"/>
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
     <!-- 通过property注入，调用setter方法 -->
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${redis.hostname}" p:poolConfig-ref="jedisPoolConfig"
