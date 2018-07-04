@@ -4,12 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias alias="ArrearsList" type="com.mosen.shoes.entity.ArrearsList"/>
-        <typeAlias alias="BuyList" type="com.mosen.shoes.entity.BuyList"/>
-        <typeAlias alias="Customer" type="com.mosen.shoes.entity.Customer"/>
-        <typeAlias alias="Factory" type="com.mosen.shoes.entity.Factory"/>
-        <typeAlias alias="RemitList" type="com.mosen.shoes.entity.RemitList"/>
-        <typeAlias alias="ShellList" type="com.mosen.shoes.entity.ShellList"/>
-        <typeAlias alias="Shoes" type="com.mosen.shoes.entity.Shoes"/>
+        <typeAlias alias="Factory" type="entity.Factory"/>
+        <typeAlias alias="Shoes" type="entity.Shoes"/>
     </typeAliases>
 </configuration>

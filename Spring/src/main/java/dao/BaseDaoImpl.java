@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Mosen on 2017/10/12.
  */
-@Repository
+@Repository("baseDao")
 public class BaseDaoImpl implements BaseDao {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
