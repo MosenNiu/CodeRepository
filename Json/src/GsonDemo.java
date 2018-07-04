@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,14 @@ public class GsonDemo {
         User user1 = gson.fromJson(json,User.class);
         System.out.println(user1);
 
-        List<String> list = gson.fromJson(json, new TypeToken<List<String>>(){}.getType());
+        User user2 = new User("老王", 36, "无锡");
+        List<User> list = new ArrayList<User>();
+        list.add(user);
+        list.add(user2);
+        String jsonList = gson.toJson(list);
+        System.out.println(jsonList);
+        List<User> list1 = gson.fromJson(jsonList, new TypeToken<List<User>>(){}.getType());
+        System.out.println(list1);
 
         //获取json中特定的值
         JsonElement je = new JsonParser().parse(json);
