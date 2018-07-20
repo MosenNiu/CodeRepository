@@ -1,14 +1,12 @@
 package reader;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DistinctBySet {
 
