@@ -11,7 +11,7 @@
 
     <artifactId>SpringDubbox</artifactId>
     <properties>
-        <spring-version>4.3.10.RELEASE</spring-version>
+        <spring-version>5.2.20.RELEASE</spring-version>
         <!--3.1.4.Final版本rest和dubbox的jar包有冲突-->
         <resteasy-version>3.0.7.Final</resteasy-version>
     </properties>
